@@ -15,6 +15,7 @@ set FOREIGN_KEY_CHECKS=0;
 -- PART 2 = 
 
 -- problem 1: average price of foods at each restaurant (uses cross join) 
+-- cross joins restaurants, serves, and foods  
 
 select restaurants.name, round(avg(foods.price),2) as average_price
 from serves, restaurants, foods
@@ -22,7 +23,9 @@ where serves.foodID = foods.foodID and serves.restID = restaurants.restID
 group by restaurants.name
 order by average_price desc;
 
+
 -- problem 2: maximum food price at each restaurant (inner join) 
+-- joins serves table with foods (foodID) and restaurants (restID)
 
 select restaurants.name, round(max(foods.price),2) as max_food_price
 from serves 
@@ -34,6 +37,7 @@ group by restaurants.name
 order by max_food_price desc;
 
 -- problem 3: count of different food types served at each restaurant (inner join) 
+-- joins serves with foods (foodID) and restaurants (restID) 
 
 select restaurants.name, count(distinct foods.type) as food_type_count
 from serves 
@@ -42,7 +46,9 @@ inner join restaurants using (restID)
 group by restaurants.name
 order by food_type_count;
 
+
 -- problem 4: average price of foods served by each chef (inner join)
+-- joins works with serves(restID), foods (foodID), chefs (chefID) 
 
 select chefs.name, round(avg(foods.price),2) as food_sold_avg
 from works
@@ -53,12 +59,14 @@ group by chefs.name
 order by food_sold_avg desc;
 
 -- problem 5: find the restaurant with the highest average food price (inner join) 
+-- joins serves with restaurants (restID), foods (foodID) 
+
 select restaurants.name, round(avg(foods.price),2) as average_price
 from serves 
 inner join restaurants using (restID)
 inner join foods using (foodID)
 group by restaurants.name
-having (average_price) >= all
+having (average_price) >= all --finds the restaurant w/ highest avg by checking the average price of each against the average prices of all of them  
     (select avg(foods.price)
     from serves
     inner join restaurants using (restID)
