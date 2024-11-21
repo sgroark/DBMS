@@ -4,10 +4,10 @@
 */
 
 // lists out the years with recorded data
-db.unemployment.distinct({"Year"}) 
+db.unemployment.distinct("Year") 
 
 // outputs the quantity of years 
-db.unemployment.distinct({"Year"}).length
+db.unemployment.distinct("Year").length
 
 /*
    Query 2: How many states were reported on in this dataset?
@@ -15,10 +15,10 @@ db.unemployment.distinct({"Year"}).length
 */
 
 // lists out the states with recorded data
-db.unemployment.distinct({"State"}) 
+db.unemployment.distinct("State") 
 
 // outputs the quantity of states 
-db.unemployment.distinct({"State"}).length
+db.unemployment.distinct("State").length
 
 /*
    Query 3: What does this query compute?
@@ -35,7 +35,7 @@ db.unemployment.distinct({"State"}).length
    ======================================
 */
 
-db.unemployment.find({Rate: {$gt: 10.0}},{Count:1, State: 1, Rate: 1, _id:0})
+db.unemployment.find({Rate: {$gt: 10.0}},{County:1, State: 1, Rate: 1, _id:0})
 
 
 /*
@@ -176,16 +176,6 @@ db.unemployment.find({Rate: {$gt: 10.0}},{Count:1, State: 1, Rate: 1, _id:0})
   for the count.
   */
       "Rate"
-  },
-  {
-    $project:
-      /**
-       * specifications: rename the Rate output to 'count'
-       *   .
-       */
-      {
-        Count: "$Rate"
-      }
   }
 ]
 
