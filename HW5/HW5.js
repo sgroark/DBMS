@@ -170,12 +170,22 @@ db.unemployment.find({Rate: {$gt: 10.0}},{County:1, State: 1, Rate: 1, _id:0})
       }
   },
   {
+    $group:
+      /**
+       * _id: The id of the group.
+       * fieldN: The first field name.
+       */
+      {
+        _id: "$County"
+      }
+  },
+  {
     $count:
       /**
   * Provide the field name (Rate)
   for the count.
   */
-      "Rate"
+      "count"
   }
 ]
 
